@@ -1,0 +1,7 @@
+rs.initiate()
+sleep(1000)
+rs.add("mongodbprimary:27017")
+sleep(1000)
+rs.add("mongodbsecondary:27017")
+sleep(1000)
+printjson(rs.stateus())

@@ -1,0 +1,67 @@
+---
+- name: env with no auth
+  set_fact:
+          mongodb_auth_env: {}
+  when: not mongodb_auth
+
+- name: init mongo db
+  set_fact:
+          mongodb_auth_env: '{{ mongodb_auth_env | combine({"MONGO_INITDB_DATABASE":mongodb_db}) }}'
+  when: mongodb_db is defined
+
+- name: render config directories
+  file:
+          path: "{{ mongodb_settings_path + '/' | dirname }}"
+          state: directory
+          recurse: yes
+
+- name: user config script
+  template:
+          src: 'users.js.j2'
+          dest: '{{ mongodb_users_config_path }}'
+
+- name: prep host
+  apt:
+          name: '{{ item }}'
+          state: present
+  with_items:
+          - mongo-org-tools
+  when: mongodb_install_cli and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+
+- name: pull mongodb image
+  docker_image:
+          name: '{{ mongodb_docker_image }}'
+          tag: '{{ mongodb_docker_image_tag }}'
+
+- name: create container
+  docker_container:
+          name: '{{ mongodb_container_name }}-primary'
+          image: '{{ mongodb_docker_image }}:{{ mongodb_docker_image_tag }}'
+          state: present
+
+- name: run mongo container
+  docker_container:
+          name: '{{ mongodb_container_name }}'
+          image: '{{ mongodb_docker_image }}:{{ mongodb_docker_image_tag }}'
+          restart_policy: always
+          state: started
+          memory: '{{ container_memory_limit | default(omit) }}'
+          env: '{{ mongodb_env | combine(mongodb_auth_env) }}'
+          volumes: '{{ mongodb_volumes + [mongodb_users_config_mount] }}'
+          volumes_from:
+                  - '{{ mongodb_container_name }}-primary'
+          ports:
+                  - '{{ mongodb_port }}:{{ mongodb_internal_port }}'
+
+  register: mongodb_container
+
+- name: wait until mongodb starts up
+  wait_for:
+          port: '{{ mongodb_port }}'
+          delay: 1
+
+- name: create replica set
+  template:
+          src: 'replica_set.j2'
+          dest: '{{ mongodb_confdir }}/replicate_set.js'
+...

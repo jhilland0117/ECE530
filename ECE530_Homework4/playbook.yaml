@@ -1,0 +1,18 @@
+---
+- name: Homework 4 ECE 530
+  hosts: localhost
+  become: yes
+
+  tasks:
+          - name: Install required packages
+            import_role:
+                    name: packages
+
+          - name: setup mongo docker secondary
+            import_role:
+                    name: secondary
+
+          - name: setup mongo docker primary
+            import_role:
+                    name: primary
+...

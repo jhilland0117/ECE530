@@ -1,0 +1,22 @@
+---
+# defaults file for docker
+
+# container name
+mongodb_container_name: 'mongodbprimary'
+mongodb_port: 3001
+mongodb_auth: false
+mongodb_admin_user: admin
+mongodb_admin_password: admin
+mongodb_db: user_db
+mongodb_user: user
+mongodb_password: test
+mongodb_docker_image: mongo
+mongodb_docker_image_tag: 4
+mongodb_install_cli: false
+mongodb_confdir: '/'
+
+mongodb_env: {}
+mongodb_volumes: []
+mongodb_container_memory_limit: 256m
+mongodb_settings_path: '{{ ansible_user_dir }}/{{ mongodb_container_name }}'
+container_count: 4
