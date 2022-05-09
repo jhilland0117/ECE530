@@ -1,31 +1,42 @@
-Role Name
+
+
+ECE 530 Homework 4 Spring 2022
 =========
 
-A brief description of the role goes here.
+Authors
+------------
+Joseph Hilland
+Swetha Samayamantula 
+Sean Pluemer 
+
+
+Roles
+------------
+
+packages: packages was not a required role, however it was included to become more familiar with ansible. This installs proper mongodb, docker and updates to the host machine before it runs any other roles.
+
+common: common role is a simple role that contains a task and file for copying to the root directory of the host. Since this project uses docker, this file is only copied to the root directory of the host.
+
+secondary: this role creates a simple mongdb container which will be added into the replica set during the primary mongodb container creation.
+
+primary: this role creates the mongo master container, which adds the users and sets up replica sets based on the template files.
+
 
 Requirements
 ------------
+- Create a playbook with a common role that writes your team members names to the file /root/team.txt on all nodes.
+- Create role that provisions a MongoDB primary node, make sure the role is generic enough to use variables and templates instead of hard-coded config files.
+- Create a role provisions a secondary node, same reqs as above.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
-Role Variables
---------------
-
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- docker
+- python3
+- pip3
+- mongodb
 
 License
 -------
