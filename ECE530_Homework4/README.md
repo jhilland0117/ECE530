@@ -27,10 +27,17 @@ Roles
 packages: packages was not a required role, however it was included to become more familiar with ansible. This installs proper mongodb, docker and updates to the host machine before it runs any other roles.
 
 common: common role is a simple role that contains a task and file for copying to the root directory of the host. Since this project uses docker, this file is only copied to the root directory of the host.
+- uses a team.txt file in files, copied over to /root
 
 secondary: this role creates a simple mongdb container which will be added into the replica set during the primary mongodb container creation.
+- uses defaults and vars as required for generic impl
+- uses templates 
+- uses handlers for starting mongod service
 
 primary: this role creates the mongo master container, which adds the users and sets up replica sets based on the template files.
+- uses defaults and vars as required for generic impl
+- uses templates for mongo db scripts
+- uses handlers for starting mongod service
 
 
 Requirements
