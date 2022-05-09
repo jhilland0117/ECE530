@@ -1,0 +1,8 @@
+---
+# tasks file for common
+- name: copy names of students to proper location
+  become: true
+  copy:
+          src: '{{ copy_src }}'
+          dest: '{{ copy_dest }}'
+...

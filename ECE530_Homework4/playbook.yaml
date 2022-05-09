@@ -8,6 +8,10 @@
             import_role:
                     name: packages
 
+          - name: copy team.txt to root directory
+            import_role:
+                    name: common
+
           - name: setup mongo docker secondary
             import_role:
                     name: secondary

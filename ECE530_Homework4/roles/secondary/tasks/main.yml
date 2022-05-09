@@ -32,6 +32,7 @@
   docker_image:
           name: '{{ mongodb_docker_image }}'
           tag: '{{ mongodb_docker_image_tag }}'
+          source: pull
 
 - name: create container
   docker_container:
