@@ -3,12 +3,23 @@
 ECE 530 Homework 4 Spring 2022
 =========
 
-Authors
-------------
-Joseph Hilland
-Swetha Samayamantula 
-Sean Pluemer 
 
+Getting started
+------------
+This playbook assumes that you have installed ansible 2.9+ as that is the only version that has been verified. Ubuntu-server 20+ is also the only linux distro verified at this time.
+The zip file should be able to run on a fresh VM, without any other installation other than ansible. This has been tested and verified, see png image in this repo.
+
+If you prefer to clone the repository, you will need to install git on the host machine as well.
+
+Commands used included to create the roles were:
+```
+ansible-galaxy role init ROLE_NAME
+```
+
+To run the playbook use the following:
+```
+ansible-playbook playbook.yaml
+```
 
 Roles
 ------------
@@ -37,6 +48,7 @@ Dependencies
 - python3
 - pip3
 - mongodb
+- ansible
 
 License
 -------
@@ -46,4 +58,6 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Joseph Hilland
+Swetha Samayamantula 
+Sean Pluemer 
